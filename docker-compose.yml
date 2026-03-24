@@ -1,0 +1,42 @@
+services:
+
+  user-db:
+    image: postgres:15
+    container_name: user-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: userdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+
+  post-db:
+    image: postgres:15
+    container_name: post-db
+    environment:
+      POSTGRES_USER: post
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - post-db-data:/var/lib/postgresql/data
+
+  notification-db:
+    image: postgres:15
+    container_name: notification-db
+    environment:
+      POSTGRES_USER: notify
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: notificationdb
+    ports:
+      - "5434:5432"
+    volumes:
+      - notification-db-data:/var/lib/postgresql/data
+
+volumes:
+  user-db-data:
+  post-db-data:
+  notification-db-data:
