@@ -1,0 +1,4 @@
+com\instaclone\userservice\User.class
+com\instaclone\userservice\UserController.class
+com\instaclone\userservice\UserServiceApplication.class
+com\instaclone\userservice\UserRepository.class

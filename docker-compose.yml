@@ -1,5 +1,53 @@
+#services:
+#
+#  user-db:
+#    image: postgres:15
+#    container_name: user-db
+#    environment:
+#      POSTGRES_USER: user
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: userdb
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - user-db-data:/var/lib/postgresql/data
+#
+#  post-db:
+#    image: postgres:15
+#    container_name: post-db
+#    environment:
+#      POSTGRES_USER: post
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: postdb
+#    ports:
+#      - "5433:5432"
+#    volumes:
+#      - post-db-data:/var/lib/postgresql/data
+#
+#  notification-db:
+#    image: postgres:15
+#    container_name: notification-db
+#    environment:
+#      POSTGRES_USER: notify
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: notificationdb
+#    ports:
+#      - "5434:5432"
+#    volumes:
+#      - notification-db-data:/var/lib/postgresql/data
+#
+#volumes:
+#  user-db-data:
+#  post-db-data:
+#  notification-db-data:
+
+version: "3.9"
+
 services:
 
+  # ----------------------------
+  # PostgreSQL for user-service
+  # ----------------------------
   user-db:
     image: postgres:15
     container_name: user-db
@@ -12,6 +60,9 @@ services:
     volumes:
       - user-db-data:/var/lib/postgresql/data
 
+  # ----------------------------
+  # PostgreSQL for post-service
+  # ----------------------------
   post-db:
     image: postgres:15
     container_name: post-db
@@ -24,6 +75,9 @@ services:
     volumes:
       - post-db-data:/var/lib/postgresql/data
 
+  # ----------------------------
+  # PostgreSQL for notification-service
+  # ----------------------------
   notification-db:
     image: postgres:15
     container_name: notification-db
@@ -35,6 +89,23 @@ services:
       - "5434:5432"
     volumes:
       - notification-db-data:/var/lib/postgresql/data
+
+  # ----------------------------
+  # LocalStack for SNS + SQS
+  # ----------------------------
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"   # Main edge port for LocalStack services
+    environment:
+      - SERVICES=sns,sqs              # Only start SNS + SQS
+      - DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1  # Skip license/auth check
+    volumes:
+      - ./init:/etc/localstack/init/ready.d # Init scripts folder
 
 volumes:
   user-db-data:
