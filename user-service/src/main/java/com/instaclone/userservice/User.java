@@ -1,11 +1,9 @@
 package com.instaclone.userservice;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users") // ✅ FIX: avoid reserved keyword
 public class User {
 
     @Id
@@ -16,7 +14,6 @@ public class User {
     private String displayName;
     private String bio;
 
-    // Constructors
     public User() {}
 
     public User(String username, String displayName, String bio) {
@@ -25,7 +22,6 @@ public class User {
         this.bio = bio;
     }
 
-    // Getters & Setters
     public Long getId() { return id; }
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
